@@ -17,6 +17,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <link rel="icon" href="/assets/images/logo.png" sizes="any" />
       <body className={inter.className}>
         <div className="main">
           <div className="gradient"></div>

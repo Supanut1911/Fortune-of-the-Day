@@ -1,6 +1,10 @@
-"use client";
 import Feed from "@components/Feed";
 import { Toaster } from "react-hot-toast";
+
+export const metadata = {
+  title: "Fourtune of the day",
+  description: "Discover & share ai prompt",
+};
 
 export default function Home() {
   return (

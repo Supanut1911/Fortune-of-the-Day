@@ -26,7 +26,7 @@ const Feed = () => {
 
   return (
     <section className="feed">
-      <div className="relative w-full flex-center shadow-xl rounded-l p-4">
+      <div className="bg-white w-full flex-center shadow-2xl rounded-lg p-4">
         {loading ? <p>Shuffling fortune ... </p> : <p>{fortune}</p>}
       </div>
       <div>
