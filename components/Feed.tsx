@@ -1,18 +1,20 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
 
 const Feed = () => {
-  const fortunes = [
+  const [fortuneLists, setFortuneLists] = useState([
     "A great fortune is a great servitude.",
     "It is not Justice the servant of men, but accident, hazard, Fortune-the ally of patient Time-that holds an even and scrupulous balance.",
     "Whatever may happen, every kind of fortune is to be overcome by bearing it.",
-  ];
+  ]);
   const [fortune, setFortune] = useState("");
+  const [newFortune, setnewFortune] = useState("");
   const [loading, setLoading] = useState(false);
   const rollFortune = async () => {
     setLoading(true);
-    const res = fortunes[Math.floor(Math.random() * fortunes.length)];
+    const res = fortuneLists[Math.floor(Math.random() * fortuneLists.length)];
     setFortune(res);
     await new Promise((r) => setTimeout(r, 2000));
     setLoading(false);
@@ -24,7 +26,7 @@ const Feed = () => {
 
   return (
     <section className="feed">
-      <div className="relative w-full flex-center shadow-xl rounded-l p-4 h-20">
+      <div className="relative w-full flex-center shadow-xl rounded-l p-4">
         {loading ? <p>Shuffling fortune ... </p> : <p>{fortune}</p>}
       </div>
       <div>
@@ -35,6 +37,30 @@ const Feed = () => {
           }`}
         >
           Shuffle
+        </button>
+      </div>
+      <div className="flex gap-2 my-20">
+        <form className="relative w-full flex-center">
+          <input
+            type="text"
+            placeholder="Search for a tag or a username"
+            onChange={(e) => {
+              setnewFortune(e.target.value);
+            }}
+            required
+            className="search_input peer"
+          />
+        </form>
+        <button
+          onClick={() => {
+            try {
+              setFortuneLists([...fortuneLists, newFortune]);
+              toast.success("Successfully toasted!");
+            } catch (error) {}
+          }}
+          className="rounded-lg  border border-black bg-transparent py-1.5 px-5 text-black transition-all hover:bg-black hover:text-white text-center text-sm font-inter flex items-center justify-center"
+        >
+          add
         </button>
       </div>
     </section>

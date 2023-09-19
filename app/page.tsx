@@ -1,5 +1,6 @@
 "use client";
 import Feed from "@components/Feed";
+import { Toaster } from "react-hot-toast";
 
 export default function Home() {
   return (
@@ -9,6 +10,7 @@ export default function Home() {
         <span className="orange_gradient text-center">Fortune Of The Day</span>
       </h1>
       <Feed />
+      <Toaster position="top-right" />
     </section>
   );
 }
