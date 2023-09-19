@@ -32,7 +32,7 @@ const Feed = () => {
       <div>
         <button
           onClick={(e) => rollFortune()}
-          className={`mt-4 px-5 py-1.5 text-sm bg-primary-orange rounded-lg text-white hover:cursor-pointer font-bold ${
+          className={`mt-4 px-5 py-1.5 text-sm  rounded-lg text-white hover:cursor-pointer font-bold  purple_gradient-bg ${
             loading ? "disabled bg-gray-300" : ""
           }`}
         >
@@ -58,7 +58,7 @@ const Feed = () => {
               toast.success("Successfully toasted!");
             } catch (error) {}
           }}
-          className="rounded-lg  border border-black bg-transparent py-1.5 px-5 text-black transition-all hover:bg-black hover:text-white text-center text-sm font-inter flex items-center justify-center"
+          className="rounded-lg  border border-yellow-600 text-yellow-600 bg-transparent py-1.5 px-5 transition-all hover:border-yellow-400 hover:text-black hover:bg-yellow-400 text-center text-sm font-inter flex items-center justify-center"
         >
           add
         </button>

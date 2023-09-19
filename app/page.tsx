@@ -11,7 +11,7 @@ export default function Home() {
     <section className="w-full flex flex-col items-center justify-center h-screen">
       <h1 className="head_text text-center ">
         <br className="max-md:hidden" />
-        <span className="orange_gradient text-center">Fortune Of The Day</span>
+        <span className="purple_gradient text-center">Fortune Of The Day</span>
       </h1>
       <Feed />
       <Toaster position="top-right" />
