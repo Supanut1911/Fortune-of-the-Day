@@ -1,16 +1,8 @@
 version: "3"
 services:
-  base-production:
-    container_name: "xta_membership_fe"
-    image: "huynhdn/xta_membership_fe:1.0"
-    build:
-      context: .
-      dockerfile: Dockerfile
+  fortune_of_the_day:
+    container_name: "fortune_of_the_day"
+    build: .
     ports:
       - "3000:3000"
-    networks:
-      - common
-
-networks:
-  common:
-    driver: bridge
+    restart: unless-stopped

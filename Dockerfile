@@ -1,4 +1,4 @@
-FROM node:18-buster
+FROM node:18-alpine
 
 WORKDIR /app
 
@@ -8,10 +8,8 @@ RUN npm ci
 
 COPY . .
 
-ENV NODE_ENV=production
-
 RUN npm run build
 
-EXPOSE 1337
+EXPOSE 3000
 
 CMD [ "npm", "run", "start" ]
