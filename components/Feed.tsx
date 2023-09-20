@@ -8,6 +8,8 @@ const Feed = () => {
     "A great fortune is a great servitude.",
     "It is not Justice the servant of men, but accident, hazard, Fortune-the ally of patient Time-that holds an even and scrupulous balance.",
     "Whatever may happen, every kind of fortune is to be overcome by bearing it.",
+    "The tallest trees are most in the power of the winds, and ambitious men of the blasts of fortune.",
+    "There is a tide in the affairs of men, which, taken at the flood, leads on to fortune; omitted, all the voyage of their life is bound in shallows and in miseries.",
   ]);
   const [fortune, setFortune] = useState("");
   const [newFortune, setnewFortune] = useState("");
@@ -43,7 +45,7 @@ const Feed = () => {
         <form className="relative w-full flex-center">
           <input
             type="text"
-            placeholder="Search for a tag or a username"
+            placeholder="Add awesome fortune"
             onChange={(e) => {
               setnewFortune(e.target.value);
             }}
