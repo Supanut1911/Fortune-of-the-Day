@@ -1,7 +1,11 @@
 "use client";
 
+import { DynamoDBClient, ScanCommand } from "@aws-sdk/client-dynamodb";
+import { DynamoDBDocumentClient, GetCommand } from "@aws-sdk/lib-dynamodb";
+import { data } from "autoprefixer";
 import { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
+import { ddbDocClient } from "../config/ddbDocClient";
 
 const Feed = () => {
   const [fortuneLists, setFortuneLists] = useState([
@@ -14,6 +18,21 @@ const Feed = () => {
   const [fortune, setFortune] = useState("");
   const [newFortune, setnewFortune] = useState("");
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const scanTable = async () => {
+      try {
+        const data = await ddbDocClient.send(
+          new ScanCommand({ TableName: "fortune-qoute" })
+        );
+        console.log("success", data);
+      } catch (err) {
+        console.log("Error", err);
+      }
+    };
+    scanTable();
+  }, []);
+
   const rollFortune = async () => {
     setLoading(true);
     const res = fortuneLists[Math.floor(Math.random() * fortuneLists.length)];
