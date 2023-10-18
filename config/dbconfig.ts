@@ -1,7 +1,7 @@
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 
 const REGION = "ap-southeast-1";
-const accessKeyId = process.env.NEXT_PUBLIC_DYNAMODB_ACCESS_KEY_IDA;
+const accessKeyId = process.env.NEXT_PUBLIC_DYNAMODB_ACCESS_KEY_ID;
 const secretAccessKey = process.env.NEXT_PUBLIC_DYNAMODB_SECRET_ACCESS_KEY;
 let ddbClient: DynamoDBClient;
 if (accessKeyId === undefined || secretAccessKey === undefined) {

@@ -6,49 +6,54 @@ import { data } from "autoprefixer";
 import { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { ddbDocClient } from "../config/ddbDocClient";
+import { ddbClient } from "../config/dbconfig";
+import { resolve } from "path";
+
+interface FortuneQouteType {
+  id: Stype;
+  qoute: Stype;
+  author: Stype;
+}
+
+interface Stype {
+  S: string;
+}
 
 const Feed = () => {
-  const [fortuneLists, setFortuneLists] = useState([
-    "A great fortune is a great servitude.",
-    "It is not Justice the servant of men, but accident, hazard, Fortune-the ally of patient Time-that holds an even and scrupulous balance.",
-    "Whatever may happen, every kind of fortune is to be overcome by bearing it.",
-    "The tallest trees are most in the power of the winds, and ambitious men of the blasts of fortune.",
-    "There is a tide in the affairs of men, which, taken at the flood, leads on to fortune; omitted, all the voyage of their life is bound in shallows and in miseries.",
-  ]);
-  const [fortune, setFortune] = useState("");
+  const [fortuneLists, setFortuneLists] = useState<any[]>([]);
+  const [fortune, setFortune] = useState<FortuneQouteType>();
   const [newFortune, setnewFortune] = useState("");
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const scanTable = async () => {
-      try {
-        const data = await ddbDocClient.send(
-          new ScanCommand({ TableName: "fortune-qoute" })
-        );
-        console.log("success", data);
-      } catch (err) {
-        console.log("Error", err);
-      }
-    };
     scanTable();
   }, []);
 
+  const scanTable = async () => {
+    try {
+      const data = await ddbDocClient.send(
+        new ScanCommand({ TableName: "fortune-qoute" })
+      );
+      setFortuneLists(data.Items!);
+      await rollFortune();
+    } catch (err) {
+      console.log("Error", err);
+    }
+  };
+
   const rollFortune = async () => {
     setLoading(true);
+    console.log("fortuneLists.length>", fortuneLists.length);
     const res = fortuneLists[Math.floor(Math.random() * fortuneLists.length)];
     setFortune(res);
     await new Promise((r) => setTimeout(r, 2000));
     setLoading(false);
   };
 
-  useEffect(() => {
-    rollFortune();
-  }, []);
-
   return (
     <section className="feed">
       <div className="bg-white w-full flex-center shadow-2xl rounded-lg p-4">
-        {loading ? <p>Shuffling fortune ... </p> : <p>{fortune}</p>}
+        {loading ? <p>Shuffling fortune ... </p> : <p>{fortune?.qoute.S}</p>}
       </div>
       <div>
         <button
