@@ -66,8 +66,8 @@ const Feed = () => {
         },
       });
       await new Promise((r) => setTimeout(r, 2000));
-      window.location.reload();
       await ddbDocClient.send(command);
+      window.location.reload();
     } catch (error) {}
   };
 
