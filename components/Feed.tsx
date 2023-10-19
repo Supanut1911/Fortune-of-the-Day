@@ -4,6 +4,7 @@ import { ScanCommand } from "@aws-sdk/client-dynamodb";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { ddbDocClient } from "../config/ddbDocClient";
+import { ScanCommandOutput } from "@aws-sdk/lib-dynamodb";
 
 // Define a type for DynamoDB AttributeValue
 type DynamoDBAttributeValue = {
@@ -21,18 +22,11 @@ type DynamoDBAttributeValue = {
 
 // Define a type for a single item
 type DynamoDBItem = Record<string, DynamoDBAttributeValue>;
-interface FortuneQouteType {
-  id: Stype;
-  qoute: Stype;
-  author: Stype;
-}
-
-interface Stype {
-  S: string;
-}
 
 const Feed = () => {
-  const [fortuneLists, setFortuneLists] = useState<any[]>([]);
+  const [fortuneLists, setFortuneLists] = useState<DynamoDBItem[] | undefined>(
+    undefined
+  );
   const [fortune, setFortune] = useState<any>();
   const [newFortune, setnewFortune] = useState("");
   const [loading, setLoading] = useState(false);
@@ -44,11 +38,11 @@ const Feed = () => {
   const scanTable = async () => {
     try {
       setLoading(true);
-      const data = await ddbDocClient.send(
+      const data: ScanCommandOutput = await ddbDocClient.send(
         new ScanCommand({ TableName: "fortune-qoute" })
       );
       setFortuneLists(data.Items!);
-      if (fortuneLists) {
+      if (data) {
         const idx = Math.floor(Math.random() * data.Items!.length);
         const rand = data.Items![idx];
         setFortune(rand);
