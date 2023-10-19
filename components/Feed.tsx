@@ -1,14 +1,26 @@
 "use client";
 
-import { DynamoDBClient, ScanCommand } from "@aws-sdk/client-dynamodb";
-import { DynamoDBDocumentClient, GetCommand } from "@aws-sdk/lib-dynamodb";
-import { data } from "autoprefixer";
+import { ScanCommand } from "@aws-sdk/client-dynamodb";
 import { useEffect, useState } from "react";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import { ddbDocClient } from "../config/ddbDocClient";
-import { ddbClient } from "../config/dbconfig";
-import { resolve } from "path";
 
+// Define a type for DynamoDB AttributeValue
+type DynamoDBAttributeValue = {
+  S?: string; // String
+  N?: string; // Number
+  B?: string; // Binary
+  SS?: string[]; // String Set
+  NS?: string[]; // Number Set
+  BS?: string[]; // Binary Set
+  BOOL?: boolean; // Boolean
+  NULL?: boolean; // Null
+  M?: Record<string, DynamoDBAttributeValue>; // Map
+  L?: DynamoDBAttributeValue[]; // List
+};
+
+// Define a type for a single item
+type DynamoDBItem = Record<string, DynamoDBAttributeValue>;
 interface FortuneQouteType {
   id: Stype;
   qoute: Stype;
@@ -21,7 +33,7 @@ interface Stype {
 
 const Feed = () => {
   const [fortuneLists, setFortuneLists] = useState<any[]>([]);
-  const [fortune, setFortune] = useState<FortuneQouteType>();
+  const [fortune, setFortune] = useState<any>();
   const [newFortune, setnewFortune] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -31,11 +43,18 @@ const Feed = () => {
 
   const scanTable = async () => {
     try {
+      setLoading(true);
       const data = await ddbDocClient.send(
         new ScanCommand({ TableName: "fortune-qoute" })
       );
       setFortuneLists(data.Items!);
-      await rollFortune();
+      if (fortuneLists) {
+        const idx = Math.floor(Math.random() * data.Items!.length);
+        const rand = data.Items![idx];
+        setFortune(rand);
+      }
+      await new Promise((r) => setTimeout(r, 2000));
+      setLoading(false);
     } catch (err) {
       console.log("Error", err);
     }
@@ -43,18 +62,23 @@ const Feed = () => {
 
   const rollFortune = async () => {
     setLoading(true);
-    console.log("fortuneLists.length>", fortuneLists.length);
-    const res = fortuneLists[Math.floor(Math.random() * fortuneLists.length)];
-    setFortune(res);
+    if (fortuneLists) {
+      const idx = Math.floor(Math.random() * fortuneLists.length);
+      const rand = fortuneLists[idx];
+      setFortune(rand);
+    }
     await new Promise((r) => setTimeout(r, 2000));
     setLoading(false);
   };
 
   return (
     <section className="feed">
-      <div className="bg-white w-full flex-center shadow-2xl rounded-lg p-4">
-        {loading ? <p>Shuffling fortune ... </p> : <p>{fortune?.qoute.S}</p>}
-      </div>
+      {
+        <div className="bg-white w-full flex-center shadow-2xl rounded-lg p-4">
+          {loading ? <>Shuffle...</> : fortune?.qoute.S}
+        </div>
+      }
+
       <div>
         <button
           onClick={(e) => rollFortune()}
