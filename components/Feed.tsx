@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { ddbDocClient } from "../config/ddbDocClient";
 import { PutCommand, ScanCommandOutput } from "@aws-sdk/lib-dynamodb";
+import Image from "next/image";
 
 // Define a type for DynamoDB AttributeValue
 type DynamoDBAttributeValue = {
@@ -84,6 +85,14 @@ const Feed = () => {
 
   return (
     <section className="feed">
+      <div>
+        <Image
+          src="https://tmp-bck-space.s3.ap-southeast-1.amazonaws.com/rider-waite-tarot-cards-activity-arcana-birthday-gifts-friends-herthem-969.webp?response-content-disposition=inline&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEJ%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaDmFwLXNvdXRoZWFzdC0xIkYwRAIgZ7fzc0qeBjGnPEIAm0EHw2VNvUJepkZqrk4NpielFJYCIBey3FB6SLF4XbDG8f1asOVp2kLeZMT63H%2ByoTcKv31%2BKo4DCLj%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEQABoMMjI2MjE0NTc4OTEyIgw4CPrOxBD1vd%2F%2BzDIq4gIy%2FmZcZRKPeegu1mvrH%2FyCMH%2F7hsBEuVObCt%2BLW1P787iFTuILkOd%2BU0bCRcmxbx4dYTvGH6xou65bQvyJHXkoCjaFNTuQ59IGJRLOjk%2FJsb8wpXU58HeCUTprS0hHEqz8%2FlyIaqGBcKajE7dwmaOrFcn0ffhdT5E3TsDqGP5K2mMHk9wUuWrAtLwQhi%2BxJkxyZx78svl6bRpJ%2BQENm%2FQrT1PYKr2Rf5zLSL97ut%2FDJKWnpYVhQxxnRrE5JmwLYIsRSCByGkPWNey3ue92EOQe35EuBuRtG%2FeUZksleXu2UaG6cfjqcmUeABz4MB7WYC69lxD69%2FRCNIj0jTJjTgMi618rSQsnqjRMc8nUKkmvCwgAKU0ofwi0i3utEdEfQwaEzjt%2F1GTSC2wpHdv%2BEtJdKcca6rk44yRFK4LlU7qOageRBTADr0t3rtREr7YPgdzDoRi40xlB3cvYd41IKYBiqEUwv6TDqQY6tAKwthBGJXxjPHPWE1la2b6m8VKR3cN4DxLd2JqLa1IWOd%2F%2FM1MeyqW%2B42O3vpd1d7iYDV6flisOUQUfGvR4qEheu4xfF1Uui%2BiIgBKqdUD7yhJio%2BXglJg4rBNyNi421fdNK92FHyR%2FEPz08C%2FDTNzPFx6Im7VtT%2FamGpcuKzempT0ygvRpUuejZ2isEhPR38Ck42j%2Bn712tu2ohCDksB5QzSDlYIyIm3HOHCjlAiJrfgd8PTwDjES4wnmCu2DsTLjDGBwCe9vpGGQJW5eyFiBVEtn%2B%2FuM6UrykOBqwT5SFSktnm%2BIVUDMTjP3Ld%2B8Ykl724F8xFqqT2kpT%2FmTirf5OmbUvybWy8Yrah2FZrNPZsxoQWIDb%2BpT9TTVb41pa6i1QpEVpCvBtP3U4rMdn59gT4Zew%2Fw%3D%3D&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20231019T072210Z&X-Amz-SignedHeaders=host&X-Amz-Expires=300&X-Amz-Credential=ASIATJK3QRLQBLZY7NW6%2F20231019%2Fap-southeast-1%2Fs3%2Faws4_request&X-Amz-Signature=aa17f9db000e1487854b3b1fb0f5044b0778067b837939fc00d014053ff71a08"
+          width={300}
+          height={300}
+          alt="tmp"
+        />
+      </div>
       {
         <div className="bg-white w-full flex-center shadow-2xl rounded-lg p-4">
           {loading ? <>Shuffle...</> : fortune?.qoute.S}
