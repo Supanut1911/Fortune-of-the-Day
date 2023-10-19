@@ -1,10 +1,10 @@
 "use client";
-
+import { uuid } from "uuidv4";
 import { ScanCommand } from "@aws-sdk/client-dynamodb";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { ddbDocClient } from "../config/ddbDocClient";
-import { ScanCommandOutput } from "@aws-sdk/lib-dynamodb";
+import { PutCommand, ScanCommandOutput } from "@aws-sdk/lib-dynamodb";
 
 // Define a type for DynamoDB AttributeValue
 type DynamoDBAttributeValue = {
@@ -29,6 +29,7 @@ const Feed = () => {
   );
   const [fortune, setFortune] = useState<any>();
   const [newFortune, setnewFortune] = useState("");
+  const [author, setAuthor] = useState("");
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -52,6 +53,22 @@ const Feed = () => {
     } catch (err) {
       console.log("Error", err);
     }
+  };
+
+  const createQoute = async (author: string, qoute: string) => {
+    try {
+      const command = new PutCommand({
+        TableName: "fortune-qoute",
+        Item: {
+          id: uuid(),
+          author,
+          qoute,
+        },
+      });
+      await new Promise((r) => setTimeout(r, 2000));
+      window.location.reload();
+      await ddbDocClient.send(command);
+    } catch (error) {}
   };
 
   const rollFortune = async () => {
@@ -87,7 +104,18 @@ const Feed = () => {
         <form className="relative w-full flex-center">
           <input
             type="text"
-            placeholder="Add awesome fortune"
+            placeholder="Author qoute ... "
+            onChange={(e) => {
+              setAuthor(e.target.value);
+            }}
+            required
+            className="search_input peer"
+          />
+        </form>
+        <form className="relative w-full flex-center">
+          <input
+            type="text"
+            placeholder="Fortune qoute ..."
             onChange={(e) => {
               setnewFortune(e.target.value);
             }}
@@ -98,13 +126,13 @@ const Feed = () => {
         <button
           onClick={() => {
             try {
-              setFortuneLists([...fortuneLists, newFortune]);
+              createQoute(author, newFortune);
               toast.success("Successfully toasted!");
             } catch (error) {}
           }}
-          className="rounded-lg  border border-yellow-600 text-yellow-600 bg-transparent py-1.5 px-5 transition-all hover:border-yellow-400 hover:text-black hover:bg-yellow-400 text-center text-sm font-inter flex items-center justify-center"
+          className="rounded-lg font-bold border border-yellow-600 text-yellow-600 bg-transparent py-1.5 px-5 transition-all hover:border-yellow-600 hover:text-white hover:bg-yellow-600 text-center text-sm font-inter flex items-center justify-center"
         >
-          add
+          Add
         </button>
       </div>
     </section>
